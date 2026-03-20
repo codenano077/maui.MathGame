@@ -30,20 +30,25 @@
 
                 <Button Grid.Column="0"
                         Text="Addition"
-                        Margin="5"/>
+                        Margin="5"
+                        Clicked="OnGameChosen"/>
                 <Button Grid.Column="1"
                         Text="Subtraction"
-                        Margin="5"/>
+                        Margin="5"
+                        Clicked="OnGameChosen"/>
                 <Button Grid.Column="2"
                         Text="Multiplication"
-                        Margin="5"/>
+                        Margin="5"
+                        Clicked="OnGameChosen"/>
                 <Button Grid.Column="3"
                         Text="Division"
-                        Margin="5"/>
+                        Margin="5"
+                        Clicked="OnGameChosen"/>
                 <Button Grid.Row="1"
                         Grid.ColumnSpan="4"
                         BackgroundColor="ForestGreen"
-                        Text="View Games" />
+                        Text="View Games"
+                        Clicked="OnViewPreviousGameChosen"/>
             </Grid>
         </VerticalStackLayout>
     </ContentView>

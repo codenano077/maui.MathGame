@@ -7,6 +7,18 @@
             InitializeComponent();
         }
 
+        private void OnGameChosen(Object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+
+            Navigation.PushAsync(new GamePage(button.Text));
+
+        }
+
+        private void OnViewPreviousGameChosen(Object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new PreviousGames());
+        }
     }
 
 }
