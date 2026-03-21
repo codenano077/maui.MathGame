@@ -1,15 +1,21 @@
-﻿namespace Maui.MathGame
+﻿using MathGame.Maui.Data;
+
+namespace Maui.MathGame
 {
     public partial class App : Application
     {
-        public App()
+        public static GameRepo? GameRepo { get; private set; }
+
+        public App(GameRepo gameRepo)
         {
             InitializeComponent();
+
+            MainPage = new AppShell();
+
+            GameRepo = gameRepo;
         }
 
-        protected override Window CreateWindow(IActivationState? activationState)
-        {
-            return new Window(new AppShell());
-        }
+        
+        
     }
 }

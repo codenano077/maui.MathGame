@@ -1,3 +1,4 @@
+using Maui.MathGame.Models;
 
 namespace Maui.MathGame;
 
@@ -21,14 +22,7 @@ public partial class GamePage : ContentPage
 
     private void CreateNewQuestion()
     {
-        var gameOperand = GameType switch
-        {
-            "Addition" => "+",
-            "Subtraction" => "-",
-            "Multiplication" => "*",
-            "Division" => "/",
-            _ => ""
-        };
+        
 
         var random = new Random();
 
@@ -44,7 +38,7 @@ public partial class GamePage : ContentPage
             }
         }
 
-        QuestionLabel.Text = $"{firstNumber} {gameOperand} {secondNumber}";
+        QuestionLabel.Text = $"{firstNumber} {GameType} {secondNumber}";
 
     }
 
@@ -55,19 +49,19 @@ public partial class GamePage : ContentPage
 
         switch (GameType)
         {
-            case "Addition":
+            case "+":
                 isCorrect = answer == firstNumber + secondNumber;
                 ProcessAnswer(isCorrect);
                 break;
-            case "Subtraction":
+            case "-":
                 isCorrect = answer == firstNumber - secondNumber;
                 ProcessAnswer(isCorrect);
                 break;
-            case "Multiplication":
+            case "x":
                 isCorrect = answer == firstNumber * secondNumber;
                 ProcessAnswer(isCorrect);
                 break;
-            case "Division":
+            case "/":
                 isCorrect = answer == firstNumber / secondNumber;
                 ProcessAnswer(isCorrect);
                 break;
@@ -89,11 +83,33 @@ public partial class GamePage : ContentPage
         AnswerLabel.Text = isCorrect ? "Correct!" : "Incorrect";
     }
 
+    // Fix for CS8602: Dereference of a possibly null reference.
     private void GameOver()
     {
+        if (App.GameRepo == null)
+        {
+            throw new InvalidOperationException("GameRepo is not initialized.");
+        }
+
+        GameOperation gameOperation = GameType switch
+        {
+            "+" => GameOperation.Addition,
+            "-" => GameOperation.Subtraction,
+            "x" => GameOperation.Multiplication,
+            "/" => GameOperation.Division,
+            _ => throw new NotImplementedException()
+        };
+
         QuestionsArea.IsVisible = false;
         BackToMenuBtn.IsVisible = true;
         GameOverLabel.Text = $"Game over! Your got {score} out of {totalQuestions} right";
+
+        App.GameRepo.Add(new Game
+        {
+            DatePlayed = DateTime.Now,
+            Type = gameOperation,
+            Score = score
+        });
     }
 
     private void OnBackToMenu(object sender, EventArgs e)

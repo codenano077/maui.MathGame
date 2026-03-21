@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-
+using MathGame.Maui.Data;
 namespace Maui.MathGame
 {
     public static class MauiProgram
@@ -11,12 +11,14 @@ namespace Maui.MathGame
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("BitcountGridDoubleInk-VariableFont.ttf", "BitcountGridDoubleInkVariableFont");
                 });
+            string dbPath = Path.Combine(FileSystem.AppDataDirectory, "game.db");
+            builder.Services.AddSingleton(s => 
+                ActivatorUtilities.CreateInstance<GameRepo>(s, dbPath));
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
